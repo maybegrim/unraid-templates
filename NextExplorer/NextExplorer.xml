@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Container version="2">
+  <Name>NextExplorer</Name>
+  <Repository>nxzai/explorer:latest</Repository>
+  <Registry>https://hub.docker.com/r/nxzai/explorer</Registry>
+  <Branch>
+    <Tag>latest</Tag>
+    <TagDescription>Latest stable release</TagDescription>
+  </Branch>
+  <Network>bridge</Network>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support/>
+  <Project>https://github.com/nxzai/NextExplorer</Project>
+  <Overview>
+NextExplorer is a modern, self-hosted web-based file explorer with secure access control and a polished UI.&#xD;
+&#xD;
+Features include fast previews for images, videos, and PDFs, a built-in code/text editor with syntax highlighting, link-based file sharing (read-only or read-write), ripgrep-powered search across filenames and content, and multiple view modes (grid, list, column).&#xD;
+&#xD;
+Security is built in with local users and groups, optional OIDC/SSO integration, account lockout policies, and session management.&#xD;
+&#xD;
+Toggle "Show more settings" for advanced options including OIDC single sign-on, reverse proxy trust, and account lockout configuration.
+  </Overview>
+  <Category>Cloud</Category>
+  <WebUI>http://[IP]:[PORT:3000]</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/nxzai/unraid-templates/main/NextExplorer/NextExplorer.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/nxzai/unraid-templates/main/NextExplorer/icon.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires/>
+  <Date>2026-03-20</Date>
+
+  <!-- ===================== -->
+  <!-- CORE SETTINGS (always shown) -->
+  <!-- ===================== -->
+
+  <!-- Web UI Port -->
+  <Config Name="Web UI Port" Target="3000" Default="3000" Mode="tcp" Description="Port for the NextExplorer web interface." Type="Port" Display="always" Required="true" Mask="false">3000</Config>
+
+  <!-- Config Volume -->
+  <Config Name="Config Path" Target="/config" Default="/mnt/user/appdata/nextexplorer/config" Mode="rw" Description="Persistent storage for database, settings, and session data. Do not delete." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/nextexplorer/config</Config>
+
+  <!-- Cache Volume -->
+  <Config Name="Cache Path" Target="/cache" Default="/mnt/user/appdata/nextexplorer/cache" Mode="rw" Description="Thumbnail cache and search indexes. Safe to clear if troubleshooting." Type="Path" Display="always" Required="false" Mask="false">/mnt/user/appdata/nextexplorer/cache</Config>
+
+  <!-- Data Volume — user's files -->
+  <Config Name="Data Path" Target="/mnt/Data" Default="/mnt/user" Mode="rw" Description="Root directory to browse. Mounted paths appear as top-level volumes in the UI. Add more by clicking 'Add another Path'." Type="Path" Display="always" Required="true" Mask="false">/mnt/user</Config>
+
+  <!-- Public URL -->
+  <Config Name="PUBLIC_URL" Target="PUBLIC_URL" Default="http://[IP]:3000" Mode="" Description="External URL used for cookies, CORS, and callback URLs. Set this to your reverse proxy URL if using one (no trailing slash)." Type="Variable" Display="always" Required="false" Mask="false">http://[IP]:3000</Config>
+
+  <!-- Admin Email (first-run bootstrap) -->
+  <Config Name="Admin Email" Target="AUTH_ADMIN_EMAIL" Default="" Mode="" Description="Email for the admin account created on first launch. Only used during initial setup." Type="Variable" Display="always" Required="false" Mask="false"/>
+
+  <!-- Admin Password (first-run bootstrap) -->
+  <Config Name="Admin Password" Target="AUTH_ADMIN_PASSWORD" Default="" Mode="" Description="Password for the admin account created on first launch. Only used during initial setup." Type="Variable" Display="always" Required="false" Mask="true"/>
+
+  <!-- Session Secret -->
+  <Config Name="Session Secret" Target="SESSION_SECRET" Default="" Mode="" Description="Random string (32+ chars) used to sign session cookies. Set a stable value to keep sessions valid across container restarts. Leave blank to auto-generate (sessions reset on restart)." Type="Variable" Display="always" Required="false" Mask="true"/>
+
+  <!-- NODE_ENV (hidden, always production) -->
+  <Config Name="NODE_ENV" Target="NODE_ENV" Default="production" Mode="" Description="Runtime environment. Leave as production." Type="Variable" Display="advanced" Required="false" Mask="false">production</Config>
+
+  <!-- PORT (hidden, matches container) -->
+  <Config Name="Container Port" Target="PORT" Default="3000" Mode="" Description="Internal container port. Should match the Web UI Port mapping." Type="Variable" Display="advanced" Required="false" Mask="false">3000</Config>
+
+  <!-- ===================== -->
+  <!-- ADVANCED SETTINGS (shown via "Show more settings") -->
+  <!-- ===================== -->
+
+  <!-- OIDC Settings -->
+  <Config Name="Enable OIDC" Target="OIDC_ENABLED" Default="false" Mode="" Description="Set to 'true' to enable OpenID Connect single sign-on. Requires OIDC provider configuration below." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+
+  <Config Name="OIDC Client ID" Target="OIDC_CLIENT_ID" Default="" Mode="" Description="Client ID from your OIDC identity provider (e.g. Authentik, Authelia, Keycloak)." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+
+  <Config Name="OIDC Client Secret" Target="OIDC_CLIENT_SECRET" Default="" Mode="" Description="Client secret from your OIDC identity provider." Type="Variable" Display="advanced" Required="false" Mask="true"/>
+
+  <Config Name="OIDC Issuer URL" Target="OIDC_ISSUER" Default="" Mode="" Description="OIDC issuer/discovery URL from your identity provider (e.g. https://auth.example.com)." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+
+  <!-- Reverse Proxy -->
+  <Config Name="Trust Proxy" Target="TRUST_PROXY" Default="" Mode="" Description="Express trust proxy setting for running behind a reverse proxy. Usually auto-derived from PUBLIC_URL. Set to 'true', a number of hops, or a CIDR range if needed." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+
+  <!-- Account Lockout -->
+  <Config Name="Max Failed Logins" Target="AUTH_MAX_FAILED" Default="5" Mode="" Description="Number of failed login attempts before the account is temporarily locked." Type="Variable" Display="advanced" Required="false" Mask="false">5</Config>
+
+  <Config Name="Lockout Duration (minutes)" Target="AUTH_LOCK_MINUTES" Default="15" Mode="" Description="Duration in minutes that an account stays locked after exceeding failed login attempts." Type="Variable" Display="advanced" Required="false" Mask="false">15</Config>
+
+</Container>
