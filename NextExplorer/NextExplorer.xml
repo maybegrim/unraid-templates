@@ -3,10 +3,6 @@
   <Name>NextExplorer</Name>
   <Repository>nxzai/explorer:latest</Repository>
   <Registry>https://hub.docker.com/r/nxzai/explorer</Registry>
-  <Branch>
-    <Tag>latest</Tag>
-    <TagDescription>Latest stable release</TagDescription>
-  </Branch>
   <Network>bridge</Network>
   <Shell>bash</Shell>
   <Privileged>false</Privileged>
@@ -23,8 +19,8 @@ Toggle "Show more settings" for advanced options including OIDC single sign-on, 
   </Overview>
   <Category>Cloud</Category>
   <WebUI>http://[IP]:[PORT:3000]</WebUI>
-  <TemplateURL>https://raw.githubusercontent.com/nxzai/unraid-templates/main/NextExplorer/NextExplorer.xml</TemplateURL>
-  <Icon>https://raw.githubusercontent.com/nxzai/unraid-templates/main/NextExplorer/icon.png</Icon>
+  <TemplateURL>https://raw.githubusercontent.com/maybegrim/unraid-templates/main/NextExplorer/NextExplorer.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/maybegrim/unraid-templates/main/NextExplorer/icon.png</Icon>
   <ExtraParams/>
   <PostArgs/>
   <DonateText/>
