@@ -15,9 +15,14 @@ These templates are available through the Unraid Community Applications plugin. 
 
 ### Manual Installation
 
-1. In the Unraid web UI, go to **Docker → Add Container → Template Repositories**
-2. Add this URL: `https://github.com/maybegrim/unraid-templates`
-3. Click **Save**, then search for the desired application
+In the Unraid web UI, go to **Docker → Add Container → Template** and paste the XML URL for the template you want:
+
+| Application | Template URL |
+|---|---|
+| NextExplorer | `https://raw.githubusercontent.com/maybegrim/unraid-templates/main/NextExplorer/NextExplorer.xml` |
+| Forgejo Runner | `https://raw.githubusercontent.com/maybegrim/unraid-templates/main/ForgejoRunner/ForgejoRunner.xml` |
+
+Or add the full repository under **Docker → Add Container → Template Repositories** with `https://github.com/maybegrim/unraid-templates` to get all templates at once.
 
 ## Support
 
