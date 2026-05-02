@@ -13,24 +13,25 @@ Forgejo Runner executes CI/CD workflows for Forgejo Actions, the built-in contin
 &#xD;
 This template uses host Docker socket mode — the runner dispatches workflow jobs as sibling containers on your Unraid Docker daemon. No Docker-in-Docker or privileged mode needed.&#xD;
 &#xD;
-SETUP: Before starting the container you must register the runner with your Forgejo instance. See the support thread for step-by-step instructions.&#xD;
+SETUP: You must register the runner before starting the container.&#xD;
 &#xD;
-1. Install this template but leave it stopped.&#xD;
-2. Open the Unraid terminal and run the registration command (see support thread).&#xD;
-3. Start the container — the runner will connect and begin picking up jobs.&#xD;
+1. Create the data directory: mkdir -p /mnt/user/appdata/forgejo-runner/data&#xD;
+2. Generate config: docker run --rm data.forgejo.org/forgejo/runner:6 forgejo-runner generate-config > /mnt/user/appdata/forgejo-runner/data/runner-config.yml&#xD;
+3. Register the runner (see support thread for full command).&#xD;
+4. Start this container — the runner will connect and begin picking up jobs.&#xD;
 &#xD;
-Toggle "Show more settings" for runner tuning options like capacity, labels, and cache configuration.
+The container must run as root (user 0:0) for Docker socket access on Unraid.
   </Overview>
   <Category>Productivity</Category>
   <WebUI/>
   <TemplateURL>https://raw.githubusercontent.com/maybegrim/unraid-templates/main/ForgejoRunner/ForgejoRunner.xml</TemplateURL>
   <Icon>https://raw.githubusercontent.com/maybegrim/unraid-templates/main/ForgejoRunner/icon.png</Icon>
-  <ExtraParams/>
+  <ExtraParams>--user 0:0</ExtraParams>
   <PostArgs>forgejo-runner daemon --config /data/runner-config.yml</PostArgs>
   <DonateText/>
   <DonateLink/>
   <Requires>A running Forgejo instance with Actions enabled. You must register the runner before first start.</Requires>
-  <Date>2026-04-30</Date>
+  <Date>2026-05-01</Date>
 
   <!-- ===================== -->
   <!-- CORE SETTINGS (always shown) -->
@@ -42,31 +43,11 @@ Toggle "Show more settings" for runner tuning options like capacity, labels, and
   <!-- Docker Socket — host Docker access for running workflow jobs -->
   <Config Name="Docker Socket" Target="/var/run/docker.sock" Default="/var/run/docker.sock" Mode="rw" Description="Host Docker socket. Allows the runner to create sibling containers for workflow jobs. Required for Docker-based job execution." Type="Path" Display="always" Required="true" Mask="false">/var/run/docker.sock</Config>
 
-  <!-- Forgejo Instance URL -->
-  <Config Name="FORGEJO_URL" Target="FORGEJO_URL" Default="" Mode="" Description="URL of your Forgejo instance (e.g. https://git.example.com). Used during registration." Type="Variable" Display="always" Required="true" Mask="false"/>
-
-  <!-- Registration Token -->
-  <Config Name="FORGEJO_TOKEN" Target="FORGEJO_TOKEN" Default="" Mode="" Description="Registration token from your Forgejo instance. Get it from Site Administration → Actions → Runners → Create New Runner. Can be reused for multiple runners." Type="Variable" Display="always" Required="true" Mask="true"/>
-
-  <!-- Runner Name -->
-  <Config Name="RUNNER_NAME" Target="RUNNER_NAME" Default="unraid-runner" Mode="" Description="Display name for this runner in the Forgejo UI." Type="Variable" Display="always" Required="false" Mask="false">unraid-runner</Config>
-
   <!-- ===================== -->
   <!-- ADVANCED SETTINGS (shown via "Show more settings") -->
   <!-- ===================== -->
 
-  <!-- Runner Labels -->
-  <Config Name="RUNNER_LABELS" Target="RUNNER_LABELS" Default="docker:docker://node:20-bookworm,ubuntu-latest:docker://ubuntu:latest" Mode="" Description="Comma-separated list of labels in format label:docker://image:tag. These determine which workflow jobs this runner can pick up. Default covers common Node and Ubuntu workflows." Type="Variable" Display="advanced" Required="false" Mask="false">docker:docker://node:20-bookworm,ubuntu-latest:docker://ubuntu:latest</Config>
-
   <!-- Docker Host override -->
   <Config Name="DOCKER_HOST" Target="DOCKER_HOST" Default="unix:///var/run/docker.sock" Mode="" Description="Docker daemon endpoint. Default uses the mounted host socket. Change to tcp://host:port if using a remote Docker daemon or Docker-in-Docker." Type="Variable" Display="advanced" Required="false" Mask="false">unix:///var/run/docker.sock</Config>
-
-  <!-- Runner capacity -->
-  <Config Name="RUNNER_CAPACITY" Target="RUNNER_CAPACITY" Default="1" Mode="" Description="Number of concurrent workflow jobs this runner can execute. Increase if your Unraid server has resources to spare." Type="Variable" Display="advanced" Required="false" Mask="false">1</Config>
-
-  <!-- User/Group ID -->
-  <Config Name="PUID" Target="PUID" Default="1000" Mode="" Description="User ID the runner process runs as. Must have read/write access to the data path and Docker socket." Type="Variable" Display="advanced" Required="false" Mask="false">1000</Config>
-
-  <Config Name="PGID" Target="PGID" Default="1000" Mode="" Description="Group ID the runner process runs as. Set to the docker group GID if needed for socket access." Type="Variable" Display="advanced" Required="false" Mask="false">1000</Config>
 
 </Container>
