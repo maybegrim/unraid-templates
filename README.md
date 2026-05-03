@@ -6,7 +6,7 @@ Community Application templates for [Unraid](https://unraid.net/).
 
 | Application | Description |
 |---|---|
-| [NextExplorer](https://github.com/nxzai/NextExplorer) | Modern, self-hosted web-based file explorer with secure access control |
+| [NextExplorer](https://github.com/nxzai/NextExplorer) | Modern, self-hosted web-based file explorer with secure access control (Tailscale supported) |
 | [Forgejo Runner](https://code.forgejo.org/forgejo/runner) | CI/CD workflow runner for Forgejo Actions |
 
 ## Installation

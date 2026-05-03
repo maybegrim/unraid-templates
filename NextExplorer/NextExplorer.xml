@@ -83,4 +83,29 @@ Toggle "Show more settings" for advanced options including OIDC single sign-on, 
 
   <Config Name="Lockout Duration (minutes)" Target="AUTH_LOCK_MINUTES" Default="15" Mode="" Description="Duration in minutes that an account stays locked after exceeding failed login attempts." Type="Variable" Display="advanced" Required="false" Mask="false">15</Config>
 
+  <!-- ===================== -->
+  <!-- TAILSCALE SETTINGS -->
+  <!-- ===================== -->
+
+  <TailscaleEnabled>false</TailscaleEnabled>
+  <TailscaleIsExitNode>false</TailscaleIsExitNode>
+  <TailscaleHostname/>
+  <TailscaleExitNodeIP/>
+  <TailscaleSSH>false</TailscaleSSH>
+  <TailscaleUserspaceNetworking>false</TailscaleUserspaceNetworking>
+  <TailscaleLANAccess>false</TailscaleLANAccess>
+  <TailscaleServe>serve</TailscaleServe>
+  <TailscaleWebUI>https://[hostname][magicdns]</TailscaleWebUI>
+  <TailscaleServePort>3000</TailscaleServePort>
+  <TailscaleServeTarget/>
+  <TailscaleServeLocalPath/>
+  <TailscaleServeProtocol/>
+  <TailscaleServeProtocolPort/>
+  <TailscaleServePath/>
+  <TailscaleDParams/>
+  <TailscaleParams/>
+  <TailscaleRoutes/>
+  <TailscaleAcceptRoutes>false</TailscaleAcceptRoutes>
+  <TailscaleStateDir/>
+
 </Container>
